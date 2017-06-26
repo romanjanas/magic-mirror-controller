@@ -1,0 +1,98 @@
+html, body {
+    background: #000;
+    color: #fff;
+    height:100%;
+    overflow-y: hidden;
+    font-family: 'Comfortaa', cursive;
+}
+
+div#border {
+    position: absolute;
+    top: 1em;
+    bottom: 1em;
+    left: 1em;
+    right: 1em;
+    border: 0.3em #fff solid;
+}
+
+div#datetime {
+    float: left;
+    display: block;
+    font-size: 5em;
+    padding: 0.3em;
+}
+
+div#weather {
+    color: #fff;
+    float: right;
+    display: block;
+    font-size: 5em;
+    padding: 0.3em;
+}
+
+div#reminders {
+    position:absolute;
+    bottom: 1em;
+    max-height: 50%;
+    display: block;
+    font-size: 2.8em;
+    padding: 3em;
+    padding-bottom: 0.5em;
+}
+
+#dayOfWeek {
+    display: block;
+    text-align: left;
+    font-size: 0.8em;
+    color: #ccc;
+}
+
+#time {
+    display: block;
+    font-size: 1.2em;
+}
+
+#date {
+    display: block;
+    text-align: left;
+    font-size: 0.4em;
+    color: #ccc;
+}
+
+#weather-icon {
+    display: block;
+    float: right;
+    text-align: right;
+    font-size: 1.2em;
+}
+
+#weather-text {
+    display: block;
+    float: left;
+}
+
+#weather-temp {
+    display: block;
+    text-align: right;
+    font-size: 0.8em;
+    color: #ccc;
+}
+
+#weather-conditions {
+    display: block;
+    text-align: right;
+    font-size: 0.4em;
+    color: #ccc;
+}
+
+#weather-icon span {
+    font: normal normal normal 14px/1 normal;
+}
+
+
+
+#weather-temperature {
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+}

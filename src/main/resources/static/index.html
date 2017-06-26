@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mirror Display</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+        <link href="css/styles.css" rel="stylesheet" type="text/css">
+        <link href="css/owfont-regular.min.css" rel="stylesheet" type="text/css">
+        <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <script src="app/datetime.js"></script>
+        <script src="app/weather.js"></script>
+    </head>
+
+    <body>
+        <div id="border">
+            <div id="datetime">
+                <span id="dayOfWeek"></span>
+                <span id="time"></span>
+                <span id="date"></span>
+                <script type="text/javascript">window.onload = date_time('time', 'date', 'dayOfWeek');</script>
+            </div>
+
+            <div id="weather">
+                <div id="weather-text">
+                    <span id="weather-temperature"><i class="fa fa-thermometer-half" aria-hidden="true"></i> 12°</span>
+                    <span id="weather-conditions">lehký déšť</span>
+                </div>
+                <span id="weather-icon"><i class="owf owf-800-n"></i></span>
+            </div>
+
+            <div id="reminders">
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                Naplánovat dovolenou<br>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                Přivézt mamce CD
+            </div>
+        </div>
+    </body>
+</html>
+
