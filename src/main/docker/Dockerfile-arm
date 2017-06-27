@@ -1,0 +1,12 @@
+FROM resin/rpi-raspbian
+
+VOLUME /tmp
+ADD maven/@docker.project.name@.jar @docker.project.name@.jar
+RUN sh -c 'touch /@docker.project.name@.jar'
+RUN echo 'deb http://archive.raspberrypi.org/debian/ wheezy main' >> /etc/apt/sources.list.d/raspi.list && \
+    echo oracle-java8-jdk shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+RUN apt-get update && \
+    apt-get -y install oracle-java8-jdk --allow-unauthenticated && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+ENV WEATHER_CITY_NAME Zlín
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/@docker.project.name@.jar", "--weather.city.name=${WEATHER_CITY_NAME}"]

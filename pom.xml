@@ -24,7 +24,7 @@
         <java.version>1.8</java.version>
         <docker.project.name>${project.artifactId}-${project.version}</docker.project.name>
         <docker.image.prefix>romanjanas</docker.image.prefix>
-        <docker.image.name>mirror-controller</docker.image.name>
+        <docker.image.name>${project.artifactId}</docker.image.name>
     </properties>
 
     <build>
@@ -46,6 +46,15 @@
                     <verbose>true</verbose>
                     <images>
                         <image>
+                            <name>${docker.image.prefix}/magic-mirror-weather</name>
+                            <alias>magic-mirror-weather</alias>
+                            <run>
+                                <ports>
+                                    <port>8081:8081</port>
+                                </ports>
+                            </run>
+                        </image>
+                        <image>
                             <name>${docker.image.prefix}/${docker.image.name}</name>
                             <build>
                                 <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
@@ -57,8 +66,8 @@
                                     <descriptorRef>artifact</descriptorRef>
                                 </assembly>
                                 <tags>
-                                    <tag>rpi-latest</tag>
-                                    <tag>rpi-${project.version}</tag>
+                                    <tag>latest</tag>
+                                    <tag>${project.version}</tag>
                                 </tags>
                             </build>
                             <run>
@@ -68,6 +77,9 @@
                                 <env>
                                     <WEATHER_CITY_NAME>Zlín</WEATHER_CITY_NAME>
                                 </env>
+                                <dependsOn>
+                                    <container>magic-mirror-weather</container>
+                                </dependsOn>
                             </run>
                         </image>
                     </images>
