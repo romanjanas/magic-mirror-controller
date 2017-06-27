@@ -57,8 +57,8 @@
                                     <descriptorRef>artifact</descriptorRef>
                                 </assembly>
                                 <tags>
-                                    <tag>latest</tag>
-                                    <tag>${project.version}</tag>
+                                    <tag>rpi-latest</tag>
+                                    <tag>rpi-${project.version}</tag>
                                 </tags>
                             </build>
                             <run>
