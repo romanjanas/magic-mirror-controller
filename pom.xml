@@ -63,7 +63,7 @@
                             </build>
                             <run>
                                 <ports>
-                                    <port>8088:8088</port>
+                                    <port>8080:8080</port>
                                 </ports>
                                 <env>
                                     <WEATHER_CITY_NAME>Zlín</WEATHER_CITY_NAME>

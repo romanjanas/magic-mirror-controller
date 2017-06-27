@@ -10,7 +10,7 @@ public class WeatherService {
     @Autowired
     WeatherHandler weatherHandler;
 
-    @Scheduled(fixedDelay = 3 * 60 * 60 * 1000)
+    @Scheduled(fixedDelay =  5 * 60 * 1000)
     public void sendWeatherUpdate() {
         weatherHandler.updateWeather();
     }

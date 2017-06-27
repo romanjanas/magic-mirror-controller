@@ -1,6 +1,6 @@
 /*jslint devel: true */
 /*global  WebSocket: false */
-var weatherSocket = new WebSocket("ws://localhost:8088/weather");
+var weatherSocket = new WebSocket("ws://localhost:8080/weather");
 weatherSocket.onmessage = function (weatherEvent) {
     "use strict";
     console.log('incoming message: ' + weatherEvent.data);
