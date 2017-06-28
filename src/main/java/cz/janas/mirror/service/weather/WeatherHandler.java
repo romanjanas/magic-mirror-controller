@@ -1,6 +1,7 @@
 package cz.janas.mirror.service.weather;
 
 import cz.janas.mirror.service.weather.entity.WeatherData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +18,16 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class WeatherHandler extends TextWebSocketHandler {
 
-    private RestTemplate restTemplate = new RestTemplate();
-
     private WebSocketSession session;
 
-    @Value("${weather.service.url:192.168.1.104}")
-    private String weatherServiceUrl;
+    @Autowired
+    private WeatherProvider weatherProvider;
 
     @Value("${weather.city.name:Zlin}")
-    String city;
+    private String city;
 
     // This will send only to one client(most recently connected)
-    public void updateWeather() {
+    void updateWeather() {
         getWeatherAndSend();
     }
 
@@ -52,18 +51,12 @@ public class WeatherHandler extends TextWebSocketHandler {
     private void getWeatherAndSend() {
         if (session != null && session.isOpen()) {
             try {
-                ResponseEntity<WeatherData> weatherDataEntity = restTemplate.getForEntity(
-                        "http://" + weatherServiceUrl +":8081/weather/" + city,
-                        WeatherData.class);
-
-                if (weatherDataEntity.getStatusCode() == HttpStatus.OK) {
-                    WeatherData weatherData = weatherDataEntity.getBody();
-                    if (weatherData.getResult().getCode() == 0) {
-                        session.sendMessage(new TextMessage(
-                                "{\"iconClass\": \"owf owf-" + weatherData.getIconId() + "\"," +
-                                        "\"temperature\": \"" + weatherData.getTemperature() + "°, " + city + "\"," +
-                                        "\"conditions\": \"" + weatherData.getConditions() + "\"}"));
-                    }
+                WeatherData weatherData = weatherProvider.getWeather(city);
+                if (weatherData.getResult().getCode() == 0) {
+                    session.sendMessage(new TextMessage(
+                            "{\"iconClass\": \"owf owf-" + weatherData.getIconId() + "\"," +
+                                    "\"temperature\": \"" + weatherData.getTemperature() + "°, " + city + "\"," +
+                                    "\"conditions\": \"" + weatherData.getConditions() + "\"}"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
