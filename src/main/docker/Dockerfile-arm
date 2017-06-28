@@ -9,4 +9,5 @@ RUN apt-get update && \
     apt-get -y install oracle-java8-jdk --allow-unauthenticated && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 ENV WEATHER_CITY_NAME Zlín
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/@docker.project.name@.jar", "--weather.city.name=${WEATHER_CITY_NAME}"]
+ENV WEATHER_SERVICE_URL 192.168.1.104
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/@docker.project.name@.jar", "--weather.city.name=${WEATHER_CITY_NAME}", "--weather.service.url=${WEATHER_SERVICE_URL}"]

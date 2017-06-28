@@ -47,7 +47,7 @@
                     <images>
                         <image>
                             <name>${docker.image.prefix}/magic-mirror-weather</name>
-                            <alias>magic-mirror-weather</alias>
+                            <alias>weather-service</alias>
                             <run>
                                 <ports>
                                     <port>8081:8081</port>
@@ -56,6 +56,7 @@
                         </image>
                         <image>
                             <name>${docker.image.prefix}/${docker.image.name}</name>
+                            <alias>controller</alias>
                             <build>
                                 <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
 
@@ -74,11 +75,15 @@
                                 <ports>
                                     <port>8080:8080</port>
                                 </ports>
+                                <links>
+                                    <link>${docker.image.prefix}/magic-mirror-weather:magic-mirror-weather</link>
+                                </links>
                                 <env>
-                                    <WEATHER_CITY_NAME>Zlín</WEATHER_CITY_NAME>
+                                    <WEATHER_CITY_NAME>Zlin</WEATHER_CITY_NAME>
+                                    <WEATHER_SERVICE_URL>magic-mirror-weather</WEATHER_SERVICE_URL>
                                 </env>
                                 <dependsOn>
-                                    <container>magic-mirror-weather</container>
+                                    <container>${docker.image.prefix}/magic-mirror-weather</container>
                                 </dependsOn>
                             </run>
                         </image>

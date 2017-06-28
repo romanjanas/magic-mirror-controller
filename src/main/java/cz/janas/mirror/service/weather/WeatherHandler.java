@@ -21,40 +21,22 @@ public class WeatherHandler extends TextWebSocketHandler {
 
     private WebSocketSession session;
 
-    private AtomicLong degrees = new AtomicLong(0);
+    @Value("${weather.service.url:192.168.1.104}")
+    private String weatherServiceUrl;
 
-    @Value("${weather.city.name:Zlín}")
+    @Value("${weather.city.name:Zlin}")
     String city;
 
     // This will send only to one client(most recently connected)
     public void updateWeather() {
-        if (session != null && session.isOpen()) {
-            try {
-                ResponseEntity<WeatherData> weatherDataEntity = restTemplate.getForEntity(
-                        "http://localhost:8081/weather/" + city,
-                        WeatherData.class);
-
-                if (weatherDataEntity.getStatusCode() == HttpStatus.OK) {
-                    WeatherData weatherData = weatherDataEntity.getBody();
-                    if (weatherData.getResult().getCode() == 0) {
-                        session.sendMessage(new TextMessage(
-                                        "{\"iconClass\": \"owf owf-" + weatherData.getIconId() + "\"," +
-                                        "\"temperature\": \"" + weatherData.getTemperature() + "°, " + city + "\"," +
-                                        "\"conditions\": \"" + weatherData.getConditions() + "\"}"));
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Don't have open session to send data");
-        }
+        getWeatherAndSend();
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         System.out.println("Connection established");
         this.session = session;
+        getWeatherAndSend();
     }
 
     @Override
@@ -64,6 +46,28 @@ public class WeatherHandler extends TextWebSocketHandler {
             session.close();
         } else {
             System.out.println("Received:" + message.getPayload());
+        }
+    }
+
+    private void getWeatherAndSend() {
+        if (session != null && session.isOpen()) {
+            try {
+                ResponseEntity<WeatherData> weatherDataEntity = restTemplate.getForEntity(
+                        "http://" + weatherServiceUrl +":8081/weather/" + city,
+                        WeatherData.class);
+
+                if (weatherDataEntity.getStatusCode() == HttpStatus.OK) {
+                    WeatherData weatherData = weatherDataEntity.getBody();
+                    if (weatherData.getResult().getCode() == 0) {
+                        session.sendMessage(new TextMessage(
+                                "{\"iconClass\": \"owf owf-" + weatherData.getIconId() + "\"," +
+                                        "\"temperature\": \"" + weatherData.getTemperature() + "°, " + city + "\"," +
+                                        "\"conditions\": \"" + weatherData.getConditions() + "\"}"));
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
